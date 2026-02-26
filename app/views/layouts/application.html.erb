@@ -14,16 +14,17 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
 
-    <%# Open Graph e Twitter Card: imagem ao compartilhar o link %>
+    <%# Open Graph e Twitter Card: imagem ao compartilhar (PNG/JPEG para WhatsApp e outras redes) %>
     <meta property="og:type" content="website">
     <meta property="og:title" content="<%= content_for(:title) || 'SOS Ser Luz' %>">
     <meta property="og:description" content="Projeto Ser Luz — Emergências em Juiz de Fora. Registre pedidos de ajuda e doações.">
-    <meta property="og:image" content="<%= request.base_url %><%= image_path('logo.webp') %>">
+    <meta property="og:image" content="<%= request.base_url %>/icon.png">
+    <meta property="og:image:type" content="image/png">
     <meta property="og:url" content="<%= request.original_url %>">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="<%= content_for(:title) || 'SOS Ser Luz' %>">
     <meta name="twitter:description" content="Projeto Ser Luz — Emergências em Juiz de Fora. Registre pedidos de ajuda e doações.">
-    <meta name="twitter:image" content="<%= request.base_url %><%= image_path('logo.webp') %>">
+    <meta name="twitter:image" content="<%= request.base_url %>/icon.png">
 
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -35,7 +36,6 @@
 
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
