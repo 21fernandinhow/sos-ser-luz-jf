@@ -13,6 +13,18 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
+
+    <%# Open Graph e Twitter Card: imagem ao compartilhar o link %>
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="<%= content_for(:title) || 'SOS Ser Luz' %>">
+    <meta property="og:description" content="Projeto Ser Luz — Emergências em Juiz de Fora. Registre pedidos de ajuda e doações.">
+    <meta property="og:image" content="<%= request.base_url %><%= image_path('logo.webp') %>">
+    <meta property="og:url" content="<%= request.original_url %>">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<%= content_for(:title) || 'SOS Ser Luz' %>">
+    <meta name="twitter:description" content="Projeto Ser Luz — Emergências em Juiz de Fora. Registre pedidos de ajuda e doações.">
+    <meta name="twitter:image" content="<%= request.base_url %><%= image_path('logo.webp') %>">
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
