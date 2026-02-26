@@ -14,6 +14,15 @@
   --color-notice: #155724;
   --color-alert: #721c24;
   --color-border: #ddd;
+  --color-flash-notice-bg: #d4edda;
+  --color-flash-notice-border: #c3e6cb;
+  --color-flash-alert-bg: #f8d7da;
+  --color-flash-alert-border: #f5c6cb;
+  --color-form-errors-bg: #f8d7da;
+  --color-badge-urgent-bg: #fef3cd;
+  --color-danger: #721c24;
+  --color-danger-hover: #5a161c;
+  --color-focus-ring: rgba(26, 95, 180, 0.15);
   --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --space-xs: 0.25rem;
   --space-s: 0.5rem;
@@ -24,6 +33,33 @@
   --shadow: 0 1px 3px rgba(0,0,0,0.08);
   --max-width: 640px;
   --max-width-wide: 960px;
+}
+
+/* Dark mode */
+[data-theme="dark"] {
+  --color-bg: #1a1a1c;
+  --color-surface: #252528;
+  --color-text: #e8e6e3;
+  --color-text-muted: #a8a6a1;
+  --color-primary: #6ba3e8;
+  --color-primary-hover: #8bb8ee;
+  --color-secondary: #5a9a4d;
+  --color-whatsapp: #25d366;
+  --color-whatsapp-hover: #34e077;
+  --color-urgent: #d4a84b;
+  --color-notice: #7bc98c;
+  --color-alert: #f0a8ae;
+  --color-border: #3d3d40;
+  --color-flash-notice-bg: #1e3d24;
+  --color-flash-notice-border: #2d6b38;
+  --color-flash-alert-bg: #4a2528;
+  --color-flash-alert-border: #8b3a42;
+  --color-form-errors-bg: #4a2528;
+  --color-badge-urgent-bg: #3d3520;
+  --color-danger: #c94d58;
+  --color-danger-hover: #e06b76;
+  --color-focus-ring: rgba(107, 163, 232, 0.25);
+  --shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
 
 *,
@@ -42,6 +78,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .layout {
@@ -58,6 +95,7 @@ body {
   position: sticky;
   top: 0;
   z-index: 10;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 .header-inner {
   max-width: var(--max-width-wide);
@@ -111,6 +149,20 @@ body {
   font-size: 1rem;
 }
 
+.theme-toggle {
+  padding: var(--space-s) !important;
+  border: none !important;
+  background: transparent !important;
+  min-width: 0;
+}
+.theme-toggle:hover {
+  background: var(--color-bg) !important;
+}
+.theme-toggle-icon {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
 @media (max-width: 599px) {
   .header-inner {
     flex-direction: column;
@@ -135,14 +187,14 @@ body {
   margin-bottom: var(--space-m);
 }
 .flash-notice {
-  background: #d4edda;
+  background: var(--color-flash-notice-bg);
   color: var(--color-notice);
-  border: 1px solid #c3e6cb;
+  border: 1px solid var(--color-flash-notice-border);
 }
 .flash-alert {
-  background: #f8d7da;
+  background: var(--color-flash-alert-bg);
   color: var(--color-alert);
-  border: 1px solid #f5c6cb;
+  border: 1px solid var(--color-flash-alert-border);
 }
 
 /* Hero (home) */
@@ -222,11 +274,11 @@ body {
   cursor: not-allowed;
 }
 .btn-danger {
-  background: #721c24;
+  background: var(--color-danger);
   color: #fff;
 }
 .btn-danger:hover {
-  background: #5a161c;
+  background: var(--color-danger-hover);
   color: #fff;
 }
 
@@ -253,7 +305,7 @@ body {
   box-shadow: var(--shadow);
 }
 .form-errors {
-  background: #f8d7da;
+  background: var(--color-form-errors-bg);
   color: var(--color-alert);
   padding: var(--space-m);
   border-radius: var(--radius);
@@ -284,14 +336,18 @@ body {
   padding: var(--space-m);
   font-size: 1rem;
   font-family: inherit;
+  color: var(--color-text);
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
   background: var(--color-surface);
 }
+.form-input::placeholder {
+  color: var(--color-text-muted);
+}
 .form-input:focus {
   outline: none;
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.15);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
 }
 .form-textarea {
   min-height: 6rem;
@@ -400,7 +456,7 @@ body {
   font-weight: 600;
 }
 .badge-urgent {
-  background: #fef3cd;
+  background: var(--color-badge-urgent-bg);
   color: var(--color-urgent);
 }
 .request-details {
@@ -444,6 +500,7 @@ body {
   color: var(--color-text-muted);
   font-size: 0.9rem;
   border-top: 1px solid var(--color-border);
+  transition: color 0.2s ease, border-color 0.2s ease;
 }
 .footer p {
   margin: 0;
