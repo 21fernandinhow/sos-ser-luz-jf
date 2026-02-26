@@ -111,6 +111,14 @@ body {
   font-size: 1rem;
 }
 
+@media (max-width: 599px) {
+  .header-inner {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
 /* Main */
 .main {
   flex: 1;
@@ -176,6 +184,10 @@ body {
   border: none;
   cursor: pointer;
   transition: background 0.15s ease;
+  white-space: normal;
+  word-wrap: break-word;
+  min-width: 0;
+  box-sizing: border-box;
 }
 .btn-primary {
   background: var(--color-primary);
@@ -303,6 +315,19 @@ body {
 }
 .form-actions .btn-block {
   flex: 1 1 100%;
+}
+
+@media (max-width: 360px) {
+  .form {
+    padding: var(--space-m);
+  }
+  .form-actions {
+    gap: var(--space-s);
+  }
+  .form-actions .btn {
+    width: 100%;
+    flex: 1 1 100%;
+  }
 }
 .back-link {
   display: inline-block;
