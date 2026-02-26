@@ -6,9 +6,13 @@ if [ -z "${LD_PRELOAD+x}" ]; then
     export LD_PRELOAD
 fi
 
-# If running the rails server then create or migrate existing database
+# If running the rails server then create or migrate existing database (only when DATABASE_URL is set)
 if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
-  ./bin/rails db:prepare
+  if [ -n "${DATABASE_URL}" ]; then
+    ./bin/rails db:prepare
+  else
+    echo "DATABASE_URL not set; skipping db:prepare. Set DATABASE_URL (e.g. link Postgres on Railway) and redeploy."
+  fi
 fi
 
 exec "${@}"
