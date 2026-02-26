@@ -37,16 +37,16 @@
           <%= image_tag "logo.webp", alt: "SOS Ser Luz", class: "logo-img" %>
         <% end %>
         <nav class="nav" aria-label="Principal">
-          <button type="button" class="theme-toggle nav-link nav-link-btn" aria-label="Alternar tema claro/escuro" title="Alternar tema">
-            <span class="theme-toggle-icon" aria-hidden="true">🌙</span>
-          </button>
           <% if user_signed_in? %>
-            <%= link_to "Painel", ngo_help_requests_path, class: "nav-link" %>
+            <%= link_to "Painel", ngo_help_requests_path, class: "nav-link nav-link-cta" %>
             <%= button_to "Sair", ngo_logout_path, method: :delete, class: "nav-link nav-link-btn" %>
           <% else %>
             <%= link_to "Pedir Ajuda", new_help_request_path, class: "nav-link nav-link-cta" %>
-            <%= link_to "Entrar", ngo_login_path, class: "nav-link" %>
+            <%= link_to "Entrar", ngo_login_path, class: "nav-link nav-link-btn" %>
           <% end %>
+          <button type="button" class="theme-toggle nav-link nav-link-btn" aria-label="Alternar tema claro/escuro" title="Alternar tema">
+            <span class="theme-toggle-icon" aria-hidden="true">🌙</span>
+          </button>
         </nav>
       </div>
     </header>

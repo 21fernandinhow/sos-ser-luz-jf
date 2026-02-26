@@ -4,11 +4,11 @@ module Ngo
     before_action :set_help_request, only: [:destroy, :update]
 
     def index
-      @help_requests = HelpRequest.where.not(status: "completed").order(created_at: :desc).limit(500)
+      @help_requests = HelpRequest.where.not(status: "completed").order(created_at: :desc, id: :desc).limit(500)
     end
 
     def completed
-      @help_requests = HelpRequest.where(status: "completed").order(updated_at: :desc).limit(500)
+      @help_requests = HelpRequest.where(status: "completed").order(updated_at: :desc, id: :desc).limit(500)
     end
 
     def destroy
