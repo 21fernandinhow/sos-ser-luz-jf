@@ -24,7 +24,9 @@
   <body class="layout">
     <header class="header" role="banner">
       <div class="header-inner">
-        <%= link_to "SOS Ser Luz", root_path, class: "logo" %>
+        <%= link_to root_path, class: "logo", title: "SOS Ser Luz" do %>
+          <%= image_tag "logo.webp", alt: "SOS Ser Luz", class: "logo-img" %>
+        <% end %>
         <nav class="nav" aria-label="Principal">
           <% if user_signed_in? %>
             <%= link_to "Painel", ngo_help_requests_path, class: "nav-link" %>

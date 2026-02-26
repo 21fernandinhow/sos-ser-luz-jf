@@ -69,13 +69,15 @@ body {
   gap: var(--space-m);
 }
 .logo {
-  font-weight: 700;
-  font-size: 1.25rem;
-  color: var(--color-primary);
+  display: block;
+  line-height: 0;
   text-decoration: none;
 }
-.logo:hover {
-  text-decoration: underline;
+.logo-img {
+  height: auto;
+  width: 4rem;
+  display: block;
+  border-radius: var(--radius);
 }
 .nav {
   display: flex;
