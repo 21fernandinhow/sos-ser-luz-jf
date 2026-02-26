@@ -1,0 +1,36 @@
+<% content_for :title, "Pedidos Concluídos – Painel" %>
+
+<section class="panel">
+  <h1 class="panel-title">Pedidos Concluídos</h1>
+  <p class="panel-meta"><%= @help_requests.size %> pedido(s) · <%= link_to "Voltar ao painel", ngo_help_requests_path, class: "panel-link" %></p>
+
+  <% if @help_requests.blank? %>
+    <p class="panel-empty">Nenhum pedido concluído.</p>
+  <% else %>
+    <ul class="request-list" role="list">
+      <% @help_requests.each do |hr| %>
+        <li class="request-card request-card--completed">
+          <div class="request-card-header">
+            <span class="request-name"><%= hr.name %></span>
+            <span class="request-date">Concluído em <%= hr.updated_at.strftime("%d/%m/%Y %H:%M") %></span>
+          </div>
+          <dl class="request-details">
+            <dt>Endereço</dt>
+            <dd><%= hr.address %>, <%= hr.neighborhood %></dd>
+            <dt>O que precisava</dt>
+            <dd><%= hr.need %></dd>
+          </dl>
+          <div class="request-actions request-actions--multiple">
+            <% if hr.phone_digits_only.present? %>
+              <%= link_to "Contatar no WhatsApp", "https://wa.me/55#{hr.phone_digits_only}", target: "_blank", rel: "noopener", class: "btn btn-whatsapp" %>
+            <% else %>
+              <span class="btn btn-disabled" aria-disabled="true">Sem telefone</span>
+            <% end %>
+            <%= button_to "Desmarcar como concluído", ngo_help_request_update_path(hr), method: :patch, params: { status: "pending" }, class: "btn btn-secondary" %>
+            <%= button_to "Apagar", ngo_help_request_path(hr), method: :delete, form: { data: { turbo_confirm: "Apagar este pedido? Esta ação não pode ser desfeita." } }, class: "btn btn-danger" %>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+</section>

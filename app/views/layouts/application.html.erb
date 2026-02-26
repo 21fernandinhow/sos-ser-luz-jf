@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Sos Ser Luz" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  </head>
+
+  <body class="layout">
+    <header class="header" role="banner">
+      <div class="header-inner">
+        <%= link_to "SOS Ser Luz", root_path, class: "logo" %>
+        <nav class="nav" aria-label="Principal">
+          <% if user_signed_in? %>
+            <%= link_to "Painel", ngo_help_requests_path, class: "nav-link" %>
+            <%= link_to "Concluídos", ngo_completed_help_requests_path, class: "nav-link" %>
+            <%= button_to "Sair", ngo_logout_path, method: :delete, class: "nav-link nav-link-btn" %>
+          <% else %>
+            <%= link_to "Pedir Ajuda", new_help_request_path, class: "nav-link nav-link-cta" %>
+            <%= link_to "Entrar", ngo_login_path, class: "nav-link" %>
+          <% end %>
+        </nav>
+      </div>
+    </header>
+    <main class="main">
+      <% if flash[:notice] %><p class="flash flash-notice" role="alert"><%= flash[:notice] %></p><% end %>
+      <% if flash[:alert] %><p class="flash flash-alert" role="alert"><%= flash[:alert] %></p><% end %>
+      <%= yield %>
+    </main>
+    <footer class="footer">
+      <p>Projeto Ser Luz — Emergências</p>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+<% content_for :title, "Entrar – Área da ONG" %>
+
+<section class="form-section form-section--narrow">
+  <h1 class="form-title">Área da ONG</h1>
+  <p class="form-intro">Login para voluntários e coordenadores.</p>
+
+  <%= form_with url: ngo_session_path, method: :post, local: true, class: "form" do |f| %>
+    <div class="form-group">
+      <%= label_tag :email, "E-mail" %>
+      <%= text_field_tag :email, params[:email], class: "form-input", type: "email", required: true, autocomplete: "email", placeholder: "seu@email.org" %>
+    </div>
+    <div class="form-group">
+      <%= label_tag :password, "Senha" %>
+      <%= password_field_tag :password, nil, class: "form-input", required: true, autocomplete: "current-password" %>
+    </div>
+    <div class="form-actions">
+      <%= submit_tag "Entrar", class: "btn btn-primary btn-block" %>
+    </div>
+  <% end %>
+
+  <%= link_to "Voltar ao início", root_path, class: "back-link" %>
+</section>

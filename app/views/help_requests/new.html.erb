@@ -1,0 +1,85 @@
+<% content_for :title, "Pedir Ajuda – SOS Ser Luz" %>
+<% content_for :head do %>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var input = document.getElementById("help_request_phone");
+      var counter = document.getElementById("phone_counter");
+      if (!input || !counter) return;
+      var maxLen = 11;
+      function digitsOnly(s) { return (s || "").replace(/\D/g, "").slice(0, maxLen); }
+      function format(v) {
+        var d = digitsOnly(v);
+        if (d.length <= 2) return d ? "(" + d : "";
+        if (d.length <= 7) return "(" + d.slice(0,2) + ") " + d.slice(2);
+        return "(" + d.slice(0,2) + ") " + d.slice(2,7) + "-" + d.slice(7);
+      }
+      function update() {
+        var d = digitsOnly(input.value);
+        var formatted = format(input.value);
+        input.value = formatted;
+        if (input === document.activeElement) {
+          input.setSelectionRange(formatted.length, formatted.length);
+        }
+        counter.textContent = d.length + "/" + maxLen;
+      }
+      input.addEventListener("input", update);
+      input.addEventListener("paste", function(e) {
+        e.preventDefault();
+        var pasted = (e.clipboardData || window.clipboardData).getData("text");
+        var d = digitsOnly(pasted);
+        input.value = format(d);
+        counter.textContent = d.length + "/" + maxLen;
+      });
+      update();
+    });
+  </script>
+<% end %>
+
+<section class="form-section">
+  <h1 class="form-title">Pedir Ajuda</h1>
+  <p class="form-intro">Preencha os dados abaixo. Em breve nossa equipe entrará em contato. Campos com * são obrigatórios.</p>
+
+  <%= form_with model: @help_request, url: help_requests_path, method: :post, local: true, class: "form" do |f| %>
+    <% if @help_request.errors.any? %>
+      <div class="form-errors" role="alert">
+        <p><strong>Corrija os erros:</strong></p>
+        <ul>
+          <% @help_request.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= f.label :name, "Nome *" %>
+      <%= f.text_field :name, class: "form-input", required: true, autocomplete: "name", placeholder: "Seu nome ou da pessoa que precisa" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :phone, "Telefone (WhatsApp)" %>
+      <%= f.telephone_field :phone, class: "form-input", autocomplete: "tel", placeholder: "(00) 00000-0000", id: "help_request_phone", maxlength: 16 %>
+      <span id="phone_counter" class="form-phone-counter" aria-live="polite">0/11</span>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :address, "Endereço *" %>
+      <%= f.text_field :address, class: "form-input", required: true, placeholder: "Rua, número, ponto de referência" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :neighborhood, "Bairro *" %>
+      <%= f.text_field :neighborhood, class: "form-input", required: true, placeholder: "Bairro" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :need, "O que você precisa? *" %>
+      <%= f.text_area :need, class: "form-input form-textarea", required: true, rows: 4, placeholder: "Descreva a situação e o que precisa (resgate, medicamentos, comida, etc.)" %>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit "Enviar Pedido de Ajuda", class: "btn btn-primary btn-block" %>
+      <%= link_to "Voltar", root_path, class: "btn btn-secondary" %>
+    </div>
+  <% end %>
+</section>
