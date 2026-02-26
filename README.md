@@ -25,6 +25,20 @@ bin/rails db:create db:migrate
 bin/rails db:seed
 ```
 
+**Credenciais padrão (desenvolvimento):**
+
+- E-mail: `projetoserluzjf@gmail.com`
+- Senha: `trocar_senha_123`
+
+Em produção, defina antes de rodar o seed:
+
+- `NGO_SEED_EMAIL` — e-mail do usuário NGO
+- `NGO_SEED_PASSWORD` — senha (trocar após primeiro login em produção)
+
+```bash
+NGO_SEED_EMAIL=admin@seudominio.org NGO_SEED_PASSWORD=senha_forte bin/rails db:seed
+```
+
 ## Rodar a aplicação
 
 ```bash
