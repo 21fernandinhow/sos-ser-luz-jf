@@ -178,6 +178,14 @@ body {
   }
   .panel-filter-form {
     flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+  .panel-filter-form .form-input {
+    width: 100%;
+  }
+  .panel-filter-select {
+    min-width: 0;
   }
 }
 
