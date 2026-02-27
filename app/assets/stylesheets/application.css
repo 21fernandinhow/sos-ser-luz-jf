@@ -181,6 +181,11 @@ body {
     align-items: stretch;
     width: 100%;
   }
+  .panel-filter-label {
+    align-self: flex-start;
+    width: 100%;
+    text-align: left;
+  }
   .panel-filter-form .form-input {
     width: 100%;
   }
