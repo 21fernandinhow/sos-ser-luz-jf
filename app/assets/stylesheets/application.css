@@ -530,6 +530,20 @@ body {
 .footer p {
   margin: 0;
 }
+.footer-instagram {
+  display: inline-flex;
+  vertical-align: text-top;
+  margin-right: var(--space-xs);
+  color: var(--color-text-muted);
+  transition: color 0.2s ease;
+}
+.footer-instagram:hover {
+  color: var(--color-text);
+}
+.footer-instagram-icon {
+  width: 16px;
+  height: 16px;
+}
 
 @media (min-width: 600px) {
   .request-card-header {
