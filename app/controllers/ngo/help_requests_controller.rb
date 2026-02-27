@@ -5,14 +5,18 @@ module Ngo
 
     def index
       scope = HelpRequest.where.not(status: "completed")
-      @neighborhoods = scope.distinct.pluck(:neighborhood).compact.sort_by { |b| b.to_s.upcase }
+      @neighborhoods = scope.distinct.pluck(:neighborhood).compact
+        .uniq { |b| b.to_s.strip.upcase }
+        .sort_by { |b| b.to_s.strip.upcase }
       scope = apply_neighborhood_filter(scope)
       @help_requests = apply_order(scope, :index).limit(500)
     end
 
     def completed
       scope = HelpRequest.where(status: "completed")
-      @neighborhoods = scope.distinct.pluck(:neighborhood).compact.sort_by { |b| b.to_s.upcase }
+      @neighborhoods = scope.distinct.pluck(:neighborhood).compact
+        .uniq { |b| b.to_s.strip.upcase }
+        .sort_by { |b| b.to_s.strip.upcase }
       scope = apply_neighborhood_filter(scope)
       @help_requests = apply_order(scope, :completed).limit(500)
     end
