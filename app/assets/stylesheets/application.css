@@ -408,6 +408,34 @@ body {
 .panel-link:hover {
   text-decoration: underline;
 }
+.panel-link--active {
+  font-weight: 600;
+}
+.panel-filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-m);
+  margin-bottom: var(--space-m);
+}
+.panel-filter-form {
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+}
+.panel-filter-label {
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+}
+.panel-filter-select {
+  min-width: 12rem;
+  padding: var(--space-xs) var(--space-s);
+}
+.panel-order {
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+}
 .panel-empty {
   background: var(--color-surface);
   padding: var(--space-xl);

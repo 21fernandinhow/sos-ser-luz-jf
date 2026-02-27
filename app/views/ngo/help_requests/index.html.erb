@@ -1,8 +1,22 @@
 <% content_for :title, "Painel – Pedidos de Ajuda" %>
+<% filter_params = { neighborhood: params[:neighborhood], order: params[:order] }.compact %>
 
 <section class="panel">
   <h1 class="panel-title">Pedidos de Ajuda</h1>
-  <p class="panel-meta"><%= @help_requests.size %> pedido(s) · <%= link_to "Ver concluídos", ngo_completed_help_requests_path, class: "panel-link" %></p>
+  <div class="panel-filters">
+    <%= form_with url: ngo_help_requests_path, method: :get, local: true, class: "panel-filter-form" do |f| %>
+      <%= f.hidden_field :order, value: params[:order] if params[:order].present? %>
+      <%= f.label :neighborhood, "Bairro:", class: "panel-filter-label" %>
+      <%= f.select :neighborhood, options_for_select([["Todos os bairros", ""]] + @neighborhoods.map { |n| [n, n] }, params[:neighborhood]), {}, { class: "form-input panel-filter-select", onchange: "this.form.submit()" } %>
+    <% end %>
+    <span class="panel-order">
+      Ordenar:
+      <%= link_to "Mais recentes", ngo_help_requests_path(filter_params.except(:order)), class: "panel-link#{' panel-link--active' if params[:order] != 'oldest'}" %>
+      ·
+      <%= link_to "Mais antigos", ngo_help_requests_path(filter_params.merge(order: "oldest")), class: "panel-link#{' panel-link--active' if params[:order] == 'oldest'}" %>
+    </span>
+  </div>
+  <p class="panel-meta"><%= @help_requests.size %> pedido(s) · <%= link_to "Ver concluídos", ngo_completed_help_requests_path(filter_params), class: "panel-link" %></p>
 
   <% if @help_requests.blank? %>
     <p class="panel-empty">Nenhum pedido de ajuda no momento.</p>
