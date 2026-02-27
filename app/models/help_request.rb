@@ -1,7 +1,18 @@
 class HelpRequest < ApplicationRecord
   before_save :normalize_phone_to_digits
 
+  STATUSES = %w[pending in_progress completed].freeze
+
   validates :name, :address, :neighborhood, :need, presence: true
+  validates :status, inclusion: { in: STATUSES }
+
+  def pending?
+    status == "pending"
+  end
+
+  def in_progress?
+    status == "in_progress"
+  end
 
   def completed?
     status == "completed"

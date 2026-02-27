@@ -1,11 +1,23 @@
-<% content_for :title, "Painel – Pedidos de Ajuda" %>
-<% filter_params = { neighborhood: params[:neighborhood], order: params[:order] }.compact %>
+<% status_value = @status.presence || params[:status].presence || "pending" %>
+<% status_label =
+  case status_value
+  when "pending" then "Pendentes"
+  when "in_progress" then "Em atendimento"
+  when "completed" then "Concluídos"
+  else "Pendentes"
+  end
+%>
+<% content_for :title, "Painel – Pedidos de Ajuda (#{status_label})" %>
+<% filter_params = { status: status_value, neighborhood: params[:neighborhood], order: params[:order] }.compact %>
+<% base_update_params = { neighborhood: params[:neighborhood], order: params[:order] }.compact %>
 
 <section class="panel">
-  <h1 class="panel-title">Pedidos de Ajuda</h1>
+  <h1 class="panel-title">Pedidos de Ajuda – <%= status_label %></h1>
   <div class="panel-filters">
     <%= form_with url: ngo_help_requests_path, method: :get, local: true, class: "panel-filter-form" do |f| %>
       <%= f.hidden_field :order, value: params[:order] if params[:order].present? %>
+      <%= f.label :status, "Status:", class: "panel-filter-label" %>
+      <%= f.select :status, options_for_select([["Pendentes", "pending"], ["Em atendimento", "in_progress"], ["Concluídos", "completed"]], status_value), {}, { class: "form-input panel-filter-select", onchange: "this.form.submit()" } %>
       <%= f.label :neighborhood, "Bairro:", class: "panel-filter-label" %>
       <%= f.select :neighborhood, options_for_select([["Todos os bairros", ""]] + @neighborhoods.map { |n| [n, n] }, params[:neighborhood]), {}, { class: "form-input panel-filter-select", onchange: "this.form.submit()" } %>
     <% end %>
@@ -16,17 +28,51 @@
       <%= link_to "Mais antigos", ngo_help_requests_path(filter_params.merge(order: "oldest")), class: "panel-link#{' panel-link--active' if params[:order] == 'oldest'}" %>
     </span>
   </div>
-  <p class="panel-meta"><%= @help_requests.size %> pedido(s) · <%= link_to "Ver concluídos", ngo_completed_help_requests_path(filter_params), class: "panel-link" %></p>
+  <p class="panel-meta"><%= @help_requests.size %> pedido(s)</p>
 
   <% if @help_requests.blank? %>
     <p class="panel-empty">Nenhum pedido de ajuda no momento.</p>
   <% else %>
     <ul class="request-list" role="list">
       <% @help_requests.each do |hr| %>
-        <li class="request-card">
+        <% card_class =
+          if hr.completed?
+            "request-card--completed"
+          elsif hr.in_progress?
+            "request-card--in-progress"
+          else
+            nil
+          end
+        %>
+        <% badge_class =
+          if hr.completed?
+            "badge-status--completed"
+          elsif hr.in_progress?
+            "badge-status--in-progress"
+          else
+            "badge-status--pending"
+          end
+        %>
+        <% badge_label =
+          if hr.completed?
+            "Concluído"
+          elsif hr.in_progress?
+            "Em atendimento"
+          else
+            "Pendente"
+          end
+        %>
+        <li class="request-card <%= card_class %>">
           <div class="request-card-header">
             <span class="request-name"><%= hr.name %></span>
-            <span class="request-date"><%= hr.created_at.strftime("%d/%m/%Y %H:%M") %></span>
+            <span class="badge badge-status <%= badge_class %>"><%= badge_label %></span>
+            <% if hr.completed? %>
+              <span class="request-date">Concluído em <%= hr.updated_at.strftime("%d/%m/%Y %H:%M") %></span>
+            <% elsif hr.in_progress? %>
+              <span class="request-date">Em atendimento desde <%= hr.updated_at.strftime("%d/%m/%Y %H:%M") %></span>
+            <% else %>
+              <span class="request-date"><%= hr.created_at.strftime("%d/%m/%Y %H:%M") %></span>
+            <% end %>
           </div>
           <dl class="request-details">
             <dt>Endereço</dt>
@@ -40,8 +86,16 @@
             <% else %>
               <span class="btn btn-disabled" aria-disabled="true">Sem telefone</span>
             <% end %>
-            <%= button_to "Marcar como concluído", ngo_help_request_update_path(hr), method: :patch, params: { status: "completed" }, class: "btn btn-secondary" %>
-            <%= button_to "Apagar", ngo_help_request_path(hr), method: :delete, form: { data: { turbo_confirm: "Apagar este pedido? Esta ação não pode ser desfeita." } }, class: "btn btn-danger" %>
+            <% if hr.pending? %>
+              <%= button_to "Marcar como em atendimento", ngo_help_request_update_path(hr), method: :patch, params: base_update_params.merge(status: "in_progress"), class: "btn btn-secondary" %>
+              <%= button_to "Marcar como concluído", ngo_help_request_update_path(hr), method: :patch, params: base_update_params.merge(status: "completed"), class: "btn btn-secondary" %>
+            <% elsif hr.in_progress? %>
+              <%= button_to "Voltar para pendente", ngo_help_request_update_path(hr), method: :patch, params: base_update_params.merge(status: "pending"), class: "btn btn-secondary" %>
+              <%= button_to "Marcar como concluído", ngo_help_request_update_path(hr), method: :patch, params: base_update_params.merge(status: "completed"), class: "btn btn-secondary" %>
+            <% else %>
+              <%= button_to "Reabrir (pendente)", ngo_help_request_update_path(hr), method: :patch, params: base_update_params.merge(status: "pending"), class: "btn btn-secondary" %>
+            <% end %>
+            <%= button_to "Apagar", ngo_help_request_path(hr), method: :delete, params: filter_params, form: { data: { turbo_confirm: "Apagar este pedido? Esta ação não pode ser desfeita." } }, class: "btn btn-danger" %>
           </div>
         </li>
       <% end %>
