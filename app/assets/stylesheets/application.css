@@ -571,6 +571,29 @@ body {
 .request-actions--multiple .btn {
   margin: 0;
 }
+
+@media (max-width: 599px) {
+  .request-actions--multiple {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .request-actions--multiple > * {
+    width: 100%;
+  }
+  .request-actions--multiple form,
+  .request-actions--multiple .button_to {
+    width: 100%;
+  }
+  .request-actions--multiple .btn,
+  .request-actions--multiple form button,
+  .request-actions--multiple form input[type="submit"] {
+    width: 100%;
+  }
+  .request-actions--multiple form button,
+  .request-actions--multiple form input[type="submit"] {
+    display: block;
+  }
+}
 .request-card--completed {
   border-left-color: var(--color-secondary);
 }
