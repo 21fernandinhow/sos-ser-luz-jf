@@ -382,6 +382,21 @@ body {
     flex: 1 1 100%;
   }
 }
+.form-volunteer {
+  margin: var(--space-l) 0 0;
+  padding-top: var(--space-l);
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+.form-volunteer small a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+.form-volunteer small a:hover {
+  text-decoration: underline;
+}
+
 .back-link {
   display: inline-block;
   margin-top: var(--space-l);

@@ -2,7 +2,7 @@
 
 <section class="form-section form-section--narrow">
   <h1 class="form-title">Área da ONG</h1>
-  <p class="form-intro">Login para voluntários e coordenadores.</p>
+  <p class="form-intro">Login para coordenadores.</p>
 
   <%= form_with url: ngo_session_path, method: :post, local: true, class: "form" do |f| %>
     <div class="form-group">
@@ -17,6 +17,11 @@
       <%= submit_tag "Entrar", class: "btn btn-primary btn-block" %>
     </div>
   <% end %>
+
+  <p class="form-volunteer">
+    Também quer ajudar? Seja voluntário.<br>
+    <small><%= link_to "Entrar no grupo de voluntários no WhatsApp", "https://chat.whatsapp.com/DvNmVMgrkCbEfZLukUuwX5?mode=gi_t", target: "_blank", rel: "noopener noreferrer" %></small>
+  </p>
 
   <%= link_to "Voltar ao início", root_path, class: "back-link" %>
 </section>
