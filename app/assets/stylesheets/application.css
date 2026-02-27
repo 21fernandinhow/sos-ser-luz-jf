@@ -176,6 +176,9 @@ body {
     justify-content: center;
     align-items: center;
   }
+  .panel-filter-form {
+    flex-direction: column;
+  }
 }
 
 /* Main */
