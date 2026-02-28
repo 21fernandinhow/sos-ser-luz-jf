@@ -1,5 +1,10 @@
 #!/bin/bash -e
 
+# Ensure bin scripts are executable (clone/copy in container can lose +x)
+if [ -d "bin" ]; then
+  chmod +x bin/* 2>/dev/null || true
+fi
+
 # Enable jemalloc for reduced memory usage and latency.
 if [ -z "${LD_PRELOAD+x}" ]; then
     LD_PRELOAD=$(find /usr/lib -name libjemalloc.so.2 -print -quit)
