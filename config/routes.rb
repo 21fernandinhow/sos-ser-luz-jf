@@ -17,5 +17,7 @@ Rails.application.routes.draw do
     get "help_requests/completed", to: "help_requests#completed", as: :completed_help_requests
     delete "help_requests/:id", to: "help_requests#destroy", as: :help_request
     patch "help_requests/:id", to: "help_requests#update", as: :help_request_update
+    patch "help_requests/:id/observation", to: "help_requests#update_observation", as: :help_request_observation
+    delete "help_requests/:id/observation", to: "help_requests#clear_observation", as: :clear_help_request_observation
   end
 end

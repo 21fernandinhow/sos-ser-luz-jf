@@ -1,7 +1,7 @@
 module Ngo
   class HelpRequestsController < ApplicationController
     before_action :require_ngo_login
-    before_action :set_help_request, only: [:destroy, :update]
+    before_action :set_help_request, only: [ :destroy, :update, :update_observation, :clear_observation ]
 
     def index
       @status = normalize_status(params[:status])
@@ -38,6 +38,24 @@ module Ngo
         neighborhood: params[:neighborhood],
         order: params[:order]
       }.compact), notice: status_notice(@help_request.status)
+    end
+
+    def update_observation
+      @help_request.update!(observation: params[:observation].to_s.strip.presence)
+      redirect_to ngo_help_requests_path({
+        status: @help_request.status,
+        neighborhood: params[:neighborhood],
+        order: params[:order]
+      }.compact), notice: "Observação salva."
+    end
+
+    def clear_observation
+      @help_request.update!(observation: nil)
+      redirect_to ngo_help_requests_path({
+        status: @help_request.status,
+        neighborhood: params[:neighborhood],
+        order: params[:order]
+      }.compact), notice: "Observação apagada."
     end
 
     private
