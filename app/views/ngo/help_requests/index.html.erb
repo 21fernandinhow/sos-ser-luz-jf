@@ -66,7 +66,7 @@
           <div class="request-card-header">
             <span class="request-name"><%= hr.name %></span>
             <span class="badge badge-status <%= badge_class %>"><%= badge_label %></span>
-            <% if hr.pending? && hr.observation.present? %>
+            <% if !hr.completed? && hr.observation.present? %>
               <span class="badge badge-obs">Obs</span>
             <% end %>
             <% if hr.completed? %>
