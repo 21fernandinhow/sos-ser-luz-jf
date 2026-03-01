@@ -31,6 +31,10 @@
           <dl class="request-details">
             <dt>Endereço</dt>
             <dd><%= hr.address %>, <%= hr.neighborhood %></dd>
+            <% if hr.people_count_label.present? %>
+              <dt>Pessoas</dt>
+              <dd><%= hr.people_count_label %></dd>
+            <% end %>
             <dt>O que precisava</dt>
             <dd><%= hr.need %></dd>
           </dl>

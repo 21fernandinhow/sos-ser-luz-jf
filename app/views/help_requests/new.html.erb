@@ -77,6 +77,11 @@
       <%= f.text_area :need, class: "form-input form-textarea", required: true, rows: 4, placeholder: "Descreva a situação e o que precisa (resgate, medicamentos, comida, etc.). Em caso de roupas/fraldas especificar tamanho." %>
     </div>
 
+    <div class="form-group">
+      <%= f.label :people_count, "Quantas pessoas são? *" %>
+      <%= f.select :people_count, options_for_select([["Sozinho(a)", 1], ["2 pessoas", 2], ["3 pessoas", 3], ["4 pessoas", 4], ["5 pessoas", 5], ["6 ou mais", 6]], @help_request.people_count), { include_blank: "Selecione" }, { class: "form-input", required: true } %>
+    </div>
+
     <div class="form-actions">
       <%= f.submit "Enviar Pedido de Ajuda", class: "btn btn-primary btn-block" %>
       <%= link_to "Voltar", root_path, class: "btn btn-secondary" %>

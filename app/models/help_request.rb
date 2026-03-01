@@ -5,6 +5,7 @@ class HelpRequest < ApplicationRecord
 
   validates :name, :address, :neighborhood, :need, presence: true
   validates :status, inclusion: { in: STATUSES }
+  validates :people_count, numericality: { only_integer: true, in: 1..6 }, allow_nil: true
 
   def pending?
     status == "pending"
@@ -16,6 +17,13 @@ class HelpRequest < ApplicationRecord
 
   def completed?
     status == "completed"
+  end
+
+  # Label for people_count (1 => "1 pessoa", 2 => "2 pessoas", 6 => "6 ou mais").
+  def people_count_label
+    return nil if people_count.blank?
+    return "6 ou mais" if people_count == 6
+    people_count == 1 ? "1 pessoa" : "#{people_count} pessoas"
   end
 
   # Returns phone with digits only for WhatsApp link (https://wa.me/55XXXXXXXXXXX).

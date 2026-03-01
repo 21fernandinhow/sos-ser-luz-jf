@@ -16,7 +16,7 @@ class HelpRequestsController < ApplicationController
 
   def help_request_params
     params.require(:help_request).permit(
-      :name, :phone, :address, :neighborhood, :need
+      :name, :phone, :address, :neighborhood, :need, :people_count
     )
   end
 end
