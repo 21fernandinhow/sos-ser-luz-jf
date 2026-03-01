@@ -63,8 +63,8 @@
     </div>
 
     <div class="form-group">
-      <%= f.label :address, "Endereço *" %>
-      <%= f.text_field :address, class: "form-input", required: true, placeholder: "Rua, número, ponto de referência" %>
+      <%= f.label :address, "Endereço da Ajuda*" %>
+      <%= f.text_field :address, class: "form-input", required: true, placeholder: "Rua, número, ponto de referência onde a ajuda será entregue." %>
     </div>
 
     <div class="form-group">
@@ -74,7 +74,7 @@
 
     <div class="form-group">
       <%= f.label :need, "O que você precisa? *" %>
-      <%= f.text_area :need, class: "form-input form-textarea", required: true, rows: 4, placeholder: "Descreva a situação e o que precisa (resgate, medicamentos, comida, etc.)" %>
+      <%= f.text_area :need, class: "form-input form-textarea", required: true, rows: 4, placeholder: "Descreva a situação e o que precisa (resgate, medicamentos, comida, etc.). Em caso de roupas/fraldas especificar tamanho." %>
     </div>
 
     <div class="form-actions">
