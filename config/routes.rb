@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   # NGO area (authenticated)
   namespace :ngo do
     get "help_requests", to: "help_requests#index", as: :help_requests
+    get "help_requests/export", to: "help_requests#export", as: :export_help_requests, defaults: { format: :csv }
     get "help_requests/completed", to: "help_requests#completed", as: :completed_help_requests
     delete "help_requests/:id", to: "help_requests#destroy", as: :help_request
     patch "help_requests/:id", to: "help_requests#update", as: :help_request_update

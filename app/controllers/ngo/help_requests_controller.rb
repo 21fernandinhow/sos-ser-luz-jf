@@ -1,3 +1,5 @@
+require "csv"
+
 module Ngo
   class HelpRequestsController < ApplicationController
     before_action :require_ngo_login
@@ -58,6 +60,44 @@ module Ngo
       }.compact), notice: "Observação apagada."
     end
 
+    def export
+      status = normalize_status(params[:status])
+      scope = HelpRequest.where(status: status)
+      scope = apply_neighborhood_filter(scope)
+      help_requests = apply_order(scope, status)
+
+      csv_string = CSV.generate(headers: true, force_quotes: true, col_sep: ";") do |csv|
+        csv << [
+          "Nome", "Telefone", "Endereço", "Bairro", "O que precisa", "Tipo de situação",
+          "Urgente", "Status", "Pessoas", "Observação", "Criado em", "Atualizado em"
+        ]
+        help_requests.find_each do |hr|
+          csv << [
+            hr.name,
+            hr.phone,
+            hr.address,
+            hr.neighborhood,
+            hr.need,
+            hr.situation_type,
+            hr.urgent? ? "Sim" : "Não",
+            export_status_label(hr.status),
+            hr.people_count_label,
+            hr.observation,
+            hr.created_at.strftime("%d/%m/%Y %H:%M"),
+            hr.updated_at.strftime("%d/%m/%Y %H:%M")
+          ]
+        end
+      end
+
+      bom = "\uFEFF"
+      send_data(
+        bom + csv_string,
+        filename: "pedidos-#{status}-#{Date.current.iso8601}.csv",
+        type: "text/csv; charset=utf-8",
+        disposition: "attachment"
+      )
+    end
+
     private
 
     def set_help_request
@@ -81,6 +121,15 @@ module Ngo
         "Pedido marcado como concluído."
       else
         "Status atualizado."
+      end
+    end
+
+    def export_status_label(status)
+      case status
+      when "pending" then "Pendente"
+      when "in_progress" then "Em atendimento"
+      when "completed" then "Concluído"
+      else status.to_s
       end
     end
 
